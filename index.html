@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VSD Eventos - Resultados</title>
+    <!-- Importamos una fuente deportiva y fuerte desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ESTILOS GENERALES Y PALETA DE COLORES --- */
+        :root {
+            --color-negro: #1a1a1a;
+            --color-rojo: #e31d2b; /* Un rojo deportivo vibrante */
+            --color-blanco: #ffffff;
+            --color-gris-fondo: #f4f4f4;
+            --color-gris-linea: #eaeaea;
+            --fuente-principal: 'Oswald', sans-serif;
+            --fuente-secundaria: 'Roboto', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--fuente-secundaria);
+            background-color: var(--color-gris-fondo);
+            color: var(--color-negro);
+            padding-bottom: 40px;
+        }
+
+        /* --- ENCABEZADO (HEADER) --- */
+        header {
+            background-color: var(--color-negro);
+            color: var(--color-blanco);
+            padding: 30px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--color-rojo);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-family: var(--fuente-principal);
+            font-weight: 700;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        header h1 span.rojo {
+            color: var(--color-rojo);
+        }
+
+        /* --- SECCIÓN DE ESTADO (RECARGA) --- */
+        #estado {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        #estado.cargando {
+            color: var(--color-rojo);
+            font-weight: bold;
+            animation: parpadeo 1s infinite;
+        }
+
+        @keyframes parpadeo {
+            50% { opacity: 0.5; }
+        }
+
+        /* --- CONTENEDOR DE LA TABLA --- */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .tabla-card {
+            background-color: var(--color-blanco);
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden; /* Para que los bordes redondeados funcionen con la tabla */
+            border: 1px solid var(--color-gris-linea);
+        }
+
+        /* Responsividad para pantallas chicas */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto; /* Barra de desplazamiento horizontal si es necesario */
+        }
+
+        /* --- ESTILOS ESPECÍFICOS DE LA TABLA --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--fuente-secundaria);
+            min-width: 600px; /* Asegura que no se comprima demasiado */
+        }
+
+        /* Cabecera de la tabla */
+        thead {
+            background-color: var(--color-rojo);
+            color: var(--color-blanco);
+            font-family: var(--fuente-principal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 1.1rem;
+            border-bottom: 3px solid var(--color-negro);
+        }
+
+        /* Cuerpo de la tabla */
+        tbody tr {
+            border-bottom: 1px solid var(--color-gris-linea);
+            transition: background-color 0.2s ease;
+        }
+
+        /* Filas alternas (cebrado) */
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* Efecto al pasar el mouse */
+        tbody tr:hover {
+            background-color: #fff1f2; /* Un rojo muy clarito */
+        }
+
+        td {
+            padding: 15px;
+            color: var(--color-negro);
+            font-size: 1rem;
+        }
+
+        /* Estilo opcional: si sabes los nombres de columna, puedes centrar el resultado */
+        /* Ejemplo si la columna se llama "Resultado" */
+        /* td[data-label="Resultado"] { font-weight: bold; text-align: center; } */
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>VSD eventos <span class="rojo">maxi basquet</span> resultados</h1>
+    </header>
+
+    <div class="main-container">
+        <div id="estado" class="cargando">Iniciando conexión...</div>
+
+        <div class="tabla-card">
+            <div class="table-responsive">
+                <table id="tabla-resultados">
+                    <thead>
+                        <tr id="headers">
+                            <!-- Los encabezados se generarán aquí -->
+                        </tr>
+                    </thead>
+                    <tbody id="cuerpo-tabla">
+                        <!-- Los datos se generarán aquí -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN ---
+        // PEGA AQUÍ TU URL GENERADA EN GOOGLE APPS SCRIPT
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyCvzkk9FjoS25dg90_avWXvwnHt5NiQCI8UeWcG7WT60-wUcGOKIR50AJJkZCCkgS00Q/exec'; 
+        // Tiempo de refresco
+        const TIEMPO_REFRESCO_MS = 60000; // 1 minuto es mucho más seguro
+        async function cargarDatos() {
+            const divEstado = document.getElementById('estado');
+            const headersRow = document.getElementById('headers');
+            const cuerpoTabla = document.getElementById('cuerpo-tabla');
+
+            try {
+                // divEstado.textContent = 'Actualizando...';
+                // divEstado.classList.add('cargando');
+
+                const response = await fetch(WEB_APP_URL);
+                const datos = await response.json();
+                
+                if (!datos || datos.length === 0) {
+                    divEstado.textContent = 'No hay datos disponibles en la hoja.';
+                    divEstado.classList.remove('cargando');
+                    return;
+                }
+
+                // Limpiar contenido previo para la recarga
+                headersRow.innerHTML = '';
+                cuerpoTabla.innerHTML = '';
+
+                // 1. Crear encabezados dinámicamente (saltando la primera columna)
+                const encabezados = Object.keys(datos[0]).slice(1);
+                encabezados.forEach(header => {
+                    const th = document.createElement('th');
+                    th.textContent = header;
+                    headersRow.appendChild(th);
+                });
+
+                // 2. Crear filas dinámicamente
+                datos.forEach(fila => {
+                    const tr = document.createElement('tr');
+                    encabezados.forEach(header => {
+                        const td = document.createElement('td');
+                        // Asignamos el valor, o un guión si está vacío
+                        td.textContent = fila[header] !== "" ? fila[header] : "-";
+                        // Agregamos un atributo de datos para CSS opcional
+                        td.setAttribute('data-label', header); 
+                        tr.appendChild(td);
+                    });
+                    cuerpoTabla.appendChild(tr);
+                });
+
+                divEstado.textContent = 'Última actualización: ' + new Date().toLocaleTimeString();
+                divEstado.classList.remove('cargando');
+
+            } catch (error) {
+                divEstado.textContent = 'Error de conexión. Reintentando pronto...';
+                divEstado.classList.remove('cargando');
+                console.error('Error:', error);
+            }
+        }
+
+        // Ejecutar inmediatamente al cargar la página
+        cargarDatos();
+
+        // Configurar la actualización automática cada X segundos
+        setInterval(cargarDatos, TIEMPO_REFRESCO_MS);
+    </script>
+</body>
+</html>
