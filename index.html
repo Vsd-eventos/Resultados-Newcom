@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VSD Eventos - Resultados</title>
-    <!-- Importamos una fuente deportiva y fuerte desde Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>VSD Eventos - Torneo de Newcom</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ESTILOS GENERALES Y PALETA DE COLORES --- */
+        /* --- VARIABLES DE COLOR Y DISEÑO (NEWCOM VIBES) --- */
         :root {
-            --color-negro: #1a1a1a;
-            --color-rojo: #e31d2b; /* Un rojo deportivo vibrante */
+            --color-principal: #0284c7; /* Azul cian moderno */
+            --color-secundario: #0f172a; /* Azul oscuro/pizarra profundo */
+            --color-acento: #f97316; /* Naranja enérgico para detalles */
             --color-blanco: #ffffff;
-            --color-gris-fondo: #f4f4f4;
-            --color-gris-linea: #eaeaea;
-            --fuente-principal: 'Oswald', sans-serif;
-            --fuente-secundaria: 'Roboto', sans-serif;
+            --color-gris-fondo: #f8fafc; /* Fondo suave tirando a azul claro */
+            --color-gris-linea: #e2e8f0;
+            --fuente-titulos: 'Montserrat', sans-serif;
+            --fuente-cuerpo: 'Open Sans', sans-serif;
         }
 
         * {
@@ -26,148 +26,187 @@
         }
 
         body {
-            font-family: var(--fuente-secundaria);
+            font-family: var(--fuente-cuerpo);
             background-color: var(--color-gris-fondo);
-            color: var(--color-negro);
-            padding-bottom: 40px;
+            color: var(--color-secundario);
+            padding-bottom: 50px;
+            line-height: 1.5;
         }
 
-        /* --- ENCABEZADO (HEADER) --- */
+        /* --- ENCABEZADO REESTILIZADO --- */
         header {
-            background-color: var(--color-negro);
+            background: linear-gradient(135deg, var(--color-secundario) 0%, #1e293b 100%);
             color: var(--color-blanco);
-            padding: 30px 20px;
+            padding: 40px 20px;
             text-align: center;
-            border-bottom: 5px solid var(--color-rojo);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--color-principal), var(--color-acento));
         }
 
         header h1 {
-            font-family: var(--fuente-principal);
-            font-weight: 700;
-            font-size: 2.5rem;
+            font-family: var(--fuente-titulos);
+            font-weight: 800;
+            font-size: 2.2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            line-height: 1.2;
+            margin-bottom: 5px;
         }
 
-        header h1 span.rojo {
-            color: var(--color-rojo);
+        header h1 span.acento {
+            color: var(--color-principal);
+        }
+        
+        header p {
+            font-size: 1rem;
+            color: #94a3b8;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        /* --- SECCIÓN DE ESTADO (RECARGA) --- */
+        /* --- ESTADO DE CONEXIÓN --- */
         #estado {
             text-align: center;
-            font-size: 0.9rem;
-            color: #666;
-            margin: 20px 0;
-            font-style: italic;
+            font-size: 0.85rem;
+            color: #64748b;
+            margin: 25px 0;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
         }
 
         #estado.cargando {
-            color: var(--color-rojo);
-            font-weight: bold;
-            animation: parpadeo 1s infinite;
+            color: var(--color-acento);
+            animation: pulso 1.5s infinite ease-in-out;
         }
 
-        @keyframes parpadeo {
-            50% { opacity: 0.5; }
+        @keyframes pulso {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.98); }
         }
 
-        /* --- CONTENEDOR DE LA TABLA --- */
+        /* --- CONTENEDOR PRINCIPAL --- */
         .main-container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
+        /* CARD DE LA TABLA */
         .tabla-card {
             background-color: var(--color-blanco);
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            overflow: hidden; /* Para que los bordes redondeados funcionen con la tabla */
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+            overflow: hidden;
             border: 1px solid var(--color-gris-linea);
         }
 
-        /* Responsividad para pantallas chicas */
+        /* RESPONSIVIDAD OPTIMIZADA */
         .table-responsive {
             width: 100%;
-            overflow-x: auto; /* Barra de desplazamiento horizontal si es necesario */
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Scroll suave en iOS */
         }
 
-        /* --- ESTILOS ESPECÍFICOS DE LA TABLA --- */
+        /* --- ESTILOS DE LA TABLA --- */
         table {
             width: 100%;
             border-collapse: collapse;
-            font-family: var(--fuente-secundaria);
-            min-width: 600px; /* Asegura que no se comprima demasiado */
+            min-width: 700px; /* Previene deformación en pantallas medianas */
         }
 
-        /* Cabecera de la tabla */
         thead {
-            background-color: var(--color-rojo);
-            color: var(--color-blanco);
-            font-family: var(--fuente-principal);
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            background-color: #f1f5f9;
         }
 
         th {
-            padding: 18px 15px;
+            padding: 18px 20px;
             text-align: left;
-            font-weight: 500;
-            font-size: 1.1rem;
-            border-bottom: 3px solid var(--color-negro);
+            font-family: var(--fuente-titulos);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--color-secundario);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--color-gris-linea);
         }
 
-        /* Cuerpo de la tabla */
         tbody tr {
             border-bottom: 1px solid var(--color-gris-linea);
-            transition: background-color 0.2s ease;
+            transition: all 0.2s ease;
         }
 
-        /* Filas alternas (cebrado) */
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+
         tbody tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #f8fafc;
         }
 
-        /* Efecto al pasar el mouse */
         tbody tr:hover {
-            background-color: #fff1f2; /* Un rojo muy clarito */
+            background-color: #f0fdf4; /* Tono verde/salud muy sutil al pasar el mouse */
+            transform: scale(1.002);
         }
 
         td {
-            padding: 15px;
-            color: var(--color-negro);
-            font-size: 1rem;
+            padding: 16px 20px;
+            color: #334155;
+            font-size: 0.95rem;
         }
 
-        /* Estilo opcional: si sabes los nombres de columna, puedes centrar el resultado */
-        /* Ejemplo si la columna se llama "Resultado" */
-        /* td[data-label="Resultado"] { font-weight: bold; text-align: center; } */
+        /* Destacar la primera columna con los nombres de equipos */
+        td:first-child {
+            font-weight: 600;
+            color: var(--color-secundario);
+        }
 
+        /* Adaptación extra para pantallas muy pequeñas */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.6rem;
+            }
+            header p {
+                font-size: 0.8rem;
+            }
+            td, th {
+                padding: 12px 15px;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>VSD eventos <span class="rojo">maxi basquet</span> resultados</h1>
+        <h1>VSD Eventos <span class="acento">Newcom</span></h1>
+        <p>Tabla de Posiciones y Resultados</p>
     </header>
 
     <div class="main-container">
-        <div id="estado" class="cargando">Iniciando conexión...</div>
+        <div id="estado" class="cargando">🔄 Iniciando conexión con el servidor...</div>
 
         <div class="tabla-card">
             <div class="table-responsive">
                 <table id="tabla-resultados">
                     <thead>
                         <tr id="headers">
-                            <!-- Los encabezados se generarán aquí -->
-                        </tr>
+                            </tr>
                     </thead>
                     <tbody id="cuerpo-tabla">
-                        <!-- Los datos se generarán aquí -->
-                    </tbody>
+                        </tbody>
                 </table>
             </div>
         </div>
@@ -175,33 +214,29 @@
 
     <script>
         // --- CONFIGURACIÓN ---
-        // PEGA AQUÍ TU URL GENERADA EN GOOGLE APPS SCRIPT
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyCvzkk9FjoS25dg90_avWXvwnHt5NiQCI8UeWcG7WT60-wUcGOKIR50AJJkZCCkgS00Q/exec'; 
-        // Tiempo de refresco
-        const TIEMPO_REFRESCO_MS = 60000; // 1 minuto es mucho más seguro
+        const TIEMPO_REFRESCO_MS = 60000; // 1 minuto
+
         async function cargarDatos() {
             const divEstado = document.getElementById('estado');
             const headersRow = document.getElementById('headers');
             const cuerpoTabla = document.getElementById('cuerpo-tabla');
 
             try {
-                // divEstado.textContent = 'Actualizando...';
-                // divEstado.classList.add('cargando');
-
                 const response = await fetch(WEB_APP_URL);
                 const datos = await response.json();
                 
                 if (!datos || datos.length === 0) {
-                    divEstado.textContent = 'No hay datos disponibles en la hoja.';
+                    divEstado.textContent = '⚠️ No hay datos disponibles en la hoja de Newcom.';
                     divEstado.classList.remove('cargando');
                     return;
                 }
 
-                // Limpiar contenido previo para la recarga
+                // Limpiar contenido previo
                 headersRow.innerHTML = '';
                 cuerpoTabla.innerHTML = '';
 
-                // 1. Crear encabezados dinámicamente (saltando la primera columna)
+                // 1. Crear encabezados dinámicamente (saltando las primeras 2 columnas según tu script original)
                 const encabezados = Object.keys(datos[0]).slice(2);
                 encabezados.forEach(header => {
                     const th = document.createElement('th');
@@ -214,29 +249,26 @@
                     const tr = document.createElement('tr');
                     encabezados.forEach(header => {
                         const td = document.createElement('td');
-                        // Asignamos el valor, o un guión si está vacío
                         td.textContent = fila[header] !== "" ? fila[header] : "-";
-                        // Agregamos un atributo de datos para CSS opcional
                         td.setAttribute('data-label', header); 
                         tr.appendChild(td);
                     });
                     cuerpoTabla.appendChild(tr);
                 });
 
-                divEstado.textContent = 'Última actualización: ' + new Date().toLocaleTimeString();
+                // Mostrar última actualización con formato amigable
+                divEstado.textContent = '✅ Actualizado a las: ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit', second:'2-digit'});
                 divEstado.classList.remove('cargando');
 
             } catch (error) {
-                divEstado.textContent = 'Error de conexión. Reintentando pronto...';
+                divEstado.textContent = '❌ Error de conexión. Reintentando automáticamente...';
                 divEstado.classList.remove('cargando');
                 console.error('Error:', error);
             }
         }
 
-        // Ejecutar inmediatamente al cargar la página
+        // Ejecuciones automáticas
         cargarDatos();
-
-        // Configurar la actualización automática cada X segundos
         setInterval(cargarDatos, TIEMPO_REFRESCO_MS);
     </script>
 </body>
